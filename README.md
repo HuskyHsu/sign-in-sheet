@@ -63,13 +63,18 @@
    - 建立一個試算表，並新增以下欄位：`id`, `name`, `email`, `idNumber`, `checkInStatus`, `signatureTimestamp`, `signatureFileUrl`, `signature`。
    - 記下試算表的 ID。
 
-2. **設定 Google Apps Script**：
+2. **建立 Google Drive 資料夾**：
+   - 登入 Google Drive，建立一個資料夾作為簽名圖片的存放目標。
+   - 右鍵點擊資料夾，選擇「取得連結」，將資料夾的權限設為「任何知道連結的人都可以檢視」。
+   - 記下該資料夾的 ID（資料夾 URL 中 `/folders/` 後的部分）。
+
+3. **設定 Google Apps Script**：
    - 開啟 Apps Script 編輯器，新增專案。
    - 將後端程式碼貼上至 `.gs` 檔案。
    - 將前端程式碼貼上至 `.html` 檔案。
    - 在程式碼中設定試算表 ID 和 Google Drive 資料夾 ID。
 
-3. **部署 Web App**：
+4. **部署 Web App**：
    - 在 Apps Script 編輯器中，點擊 `部署 > 新部署`。
    - 選擇 `Web 應用程式`，設定版本並部署。
    - 記下 Web App 的 URL。
