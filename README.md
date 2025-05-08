@@ -7,19 +7,25 @@
 1. **查詢報名資料**：使用者輸入報名 ID 後，系統會從 Google 試算表中查詢對應的參與者資料。
 
 | 查詢報名首頁      | 查詢報名資料 |
-|----------------------|----------------------------|
+|:------------------:|:------------------:|
 |![查詢報名資料](images/home.png) | ![查詢報名資料](images/search.png) |
 
 
-
-
 2. **簽名報到**：參與者可在簽名區簽名，並提交報到資料。
-   ![簽名報到](images/signature.png)
+<div align="center">
+  <img src="images/signature.png" alt="簽名報到" width="300">
+</div>
 
 3. **儲存簽名**：簽名圖片會以檔案形式儲存至 Google Drive，並將檔案 URL 回寫至試算表。
-   ![儲存簽名](images/sign-in-done.png)
+<div align="center">
+  <img src="images/sign-in-done.png" alt="簽名報到" width="300">
+</div>
+
 4. **顯示先前簽名**：若參與者已完成報到，又重複進入，系統會顯示先前的簽名記錄。
-   ![顯示先前簽名](images/re-sign-in.png)
+<div align="center">
+  <img src="images/re-sign-in.png" alt="簽名報到" width="300">
+</div>
+
 
 ## 試算表欄位說明
 
