@@ -6,133 +6,49 @@
   <title>活動報到系統</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdn.jsdelivr.net/npm/signature_pad@4.1.7/dist/signature_pad.umd.min.js"></script>
-  <style>
-    body {
-      font-family: 'Inter', sans-serif;
-      background-color: #f0f2f5;
-    }
-    .container {
-      max-width: 600px;
-      margin: 2rem auto;
-      padding: 2rem;
-      background-color: white;
-      border-radius: 0.5rem;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    }
-    .form-input {
-      border-radius: 0.375rem;
-      border: 1px solid #d1d5db;
-      padding: 0.75rem 1rem;
-      width: 100%;
-    }
-    .btn {
-      border-radius: 0.375rem;
-      padding: 0.75rem 1.5rem;
-      font-weight: 600;
-      transition: background-color 0.2s;
-    }
-    .btn-primary {
-      background-color: #3b82f6;
-      color: white;
-    }
-    .btn-primary:hover {
-      background-color: #2563eb;
-    }
-    .btn-secondary {
-      background-color: #6b7280;
-      color: white;
-    }
-    .btn-secondary:hover {
-      background-color: #4b5563;
-    }
-    .signature-pad-container {
-      border: 1px dashed #cbd5e1;
-      border-radius: 0.375rem;
-      margin-top: 1rem;
-      margin-bottom: 1rem;
-      touch-action: none;
-    }
-    #signatureCanvas {
-      width: 100%;
-      height: 200px;
-    }
-    .attendee-info dt {
-      font-weight: 600;
-      color: #4b5563;
-    }
-    .attendee-info dd {
-      color: #1f2937;
-    }
-    .message-box {
-      padding: 1rem;
-      border-radius: 0.375rem;
-      margin-top: 1rem;
-      font-weight: 500;
-    }
-    .message-success {
-      background-color: #d1fae5;
-      color: #065f46;
-      border: 1px solid #6ee7b7;
-    }
-    .message-error {
-      background-color: #fee2e2;
-      color: #991b1b;
-      border: 1px solid #fca5a5;
-    }
-    #previousSignatureImage {
-        max-height: 180px; /* 調整已簽名圖片的最大高度 */
-        border: 1px solid #d1d5db; /* 邊框 */
-        border-radius: 0.375rem; /* 圓角 */
-        background-color: #f9fafb; /* 淺背景色 */
-    }
-    @media (max-width: 640px) {
-        #signatureCanvas {
-            height: 150px;
-        }
-        #previousSignatureImage {
-            max-height: 120px;
-        }
-        .container {
-            margin: 1rem;
-            padding: 1.5rem;
-        }
-    }
-  </style>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
-<body>
-  <div class="container max-w-lg mx-auto my-8 p-8 bg-white rounded-lg shadow-md">
+<body class="font-sans bg-gray-100">
+  <div class="max-w-lg mx-auto my-8 p-8 bg-white rounded-lg shadow-md">
     <h1 class="text-3xl font-bold text-center mb-6 text-gray-800">ＯＯ報到系統</h1>
 
     <div id="searchSection">
       <label for="attendeeIdInput" class="block text-sm font-medium text-gray-700 mb-1">請輸入您的ID：</label>
-      <input type="text" id="attendeeIdInput" class="form-input mb-3" placeholder="例如：08888">
-      <button id="searchBtn" class="btn btn-primary w-full">查詢資料</button>
+      <input type="text" id="attendeeIdInput" class="w-full border border-gray-300 rounded-md p-2 mb-3" placeholder="例如：08888">
+      <button id="searchBtn" class="w-full bg-blue-500 text-white font-semibold py-2 rounded-md hover:bg-blue-600">查詢資料</button>
     </div>
 
     <div id="dataSection" class="hidden mt-6">
       <h2 class="text-xl font-semibold mb-3 text-gray-700">請確認您的資料：</h2>
-      <div id="attendeeInfo" class="bg-gray-50 p-4 rounded-md shadow-sm mb-4 attendee-info grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-2">
+      <div id="attendeeInfo" class="bg-gray-50 p-4 rounded-md shadow-sm mb-4 grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-2">
       </div>
 
-      <div id="messageBox" class="message-box hidden"></div>
-      <div id="previousSignatureSection" class="hidden mt-4 p-4 border border-gray-300 rounded-md bg-slate-50">
+      <div id="messageBox" class="hidden p-4 rounded-md font-medium"></div>
+      <div id="previousSignatureSection" class="hidden mt-4 p-4 border border-gray-300 rounded-md bg-gray-50">
         <h3 class="text-lg font-semibold text-gray-700 mb-2">先前報到記錄：</h3>
         <dl class="space-y-1">
-            <div><dt>報到時間：</dt><dd id="previousTimestamp" class="text-gray-800"></dd></div>
-            <div><dt>已簽署文件：</dt><dd><img id="previousSignatureImage" src="" alt="先前簽名" class="mt-1 w-full h-auto object-contain"/></dd></div>
+          <div>
+            <dt class="font-semibold text-gray-600">報到時間：</dt>
+            <dd id="previousTimestamp" class="text-gray-800"></dd>
+          </div>
+          <div>
+            <dt class="font-semibold text-gray-600">已簽署文件：</dt>
+            <dd>
+              <img id="previousSignatureImage" src="" alt="先前簽名" class="mt-1 w-full h-auto object-contain border border-gray-300 rounded-md bg-gray-100">
+            </dd>
+          </div>
         </dl>
       </div>
 
       <div id="signatureArea" class="hidden">
         <p class="text-sm font-medium text-gray-700 mb-1 mt-4">請在下方空白處簽名（若需重新簽署）：</p>
-        <div class="signature-pad-container">
-          <canvas id="signatureCanvas"></canvas>
+        <div class="border border-dashed border-gray-300 rounded-md mt-4 mb-4">
+          <canvas id="signatureCanvas" class="w-full h-48"></canvas>
         </div>
         <div class="flex space-x-2 mt-2 mb-4">
-            <button id="clearSignatureBtn" class="btn btn-secondary text-sm py-2 px-3">清除簽名</button>
+          <button id="clearSignatureBtn" class="bg-gray-500 text-white text-sm py-2 px-3 rounded-md hover:bg-gray-600">清除簽名</button>
         </div>
-        <button id="submitBtn" class="btn btn-primary w-full">確認報到並提交簽名</button>
+        <button id="submitBtn" class="w-full bg-blue-500 text-white font-semibold py-2 rounded-md hover:bg-blue-600">確認報到並提交簽名</button>
       </div>
     </div>
   </div>
@@ -159,25 +75,21 @@
 
     // 初始化或調整簽名版大小
     function initializeOrResizeSignaturePad() {
-        const ratio = Math.max(window.devicePixelRatio || 1, 1);
-        // 設定畫布的實際繪圖尺寸 (乘以 DPI 比例以獲得清晰圖像)
-        canvas.width = canvas.offsetWidth * ratio;
-        canvas.height = canvas.offsetHeight * ratio;
+      const ratio = Math.max(window.devicePixelRatio || 1, 1);
+      canvas.width = canvas.offsetWidth * ratio;
+      canvas.height = canvas.offsetHeight * ratio;
 
-        // 取得 2D 上下文並進行相應縮放
-        const ctx = canvas.getContext('2d');
-        ctx.scale(ratio, ratio);
+      const ctx = canvas.getContext('2d');
+      ctx.scale(ratio, ratio);
 
-        if (!signaturePad) {
-            // 首次初始化 SignaturePad
-            signaturePad = new SignaturePad(canvas, {
-                backgroundColor: null, // 透明背景
-                penColor: 'rgb(55, 65, 81)',          // #374151 (深灰色筆觸)
-            });
-        } else {
-            // 如果已經初始化 (例如視窗大小調整時)，清除畫布以適應新尺寸
-            signaturePad.clear();
-        }
+      if (!signaturePad) {
+        signaturePad = new SignaturePad(canvas, {
+          backgroundColor: null,
+          penColor: 'rgb(55, 65, 81)',
+        });
+      } else {
+        signaturePad.clear();
+      }
     }
 
     // 清除簽名
@@ -194,12 +106,9 @@
     // 顯示訊息
     function showMessage(message, isSuccess = true) {
       messageBox.textContent = message;
-      messageBox.className = 'message-box'; // Reset classes
-      if (isSuccess) {
-        messageBox.classList.add('message-success');
-      } else {
-        messageBox.classList.add('message-error');
-      }
+      messageBox.className = isSuccess
+        ? 'p-4 rounded-md font-medium bg-green-100 text-green-800 border border-green-300'
+        : 'p-4 rounded-md font-medium bg-red-100 text-red-800 border border-red-300';
       messageBox.classList.remove('hidden');
     }
 
@@ -219,7 +128,6 @@
       searchBtn.disabled = true;
       searchBtn.textContent = '查詢中...';
 
-      // 查詢前先隱藏舊的簽名和新簽名區
       previousSignatureSection.classList.add('hidden');
       signatureArea.classList.add('hidden');
 
@@ -227,45 +135,36 @@
         .withSuccessHandler(attendeeData => {
           searchBtn.disabled = false;
           searchBtn.textContent = '查詢資料';
-          console.log(attendeeData)
           if (attendeeData && attendeeData.error) {
             showMessage(attendeeData.error, false);
             dataSection.classList.add('hidden');
           } else if (attendeeData) {
             displayAttendeeData(attendeeData);
-            searchSection.classList.add('hidden'); // 隱藏查詢區
-            dataSection.classList.remove('hidden'); // 顯示資料確認區
+            searchSection.classList.add('hidden');
+            dataSection.classList.remove('hidden');
 
             if (attendeeData.checkInStatus === '已報到') {
               showMessage('您已完成報到。以下是您上次的報到記錄。', true);
-              signatureArea.classList.add('hidden'); // 隱藏新的簽名區
+              signatureArea.classList.add('hidden');
 
               if (attendeeData.signatureFileUrl && attendeeData.signatureTimestamp) {
                 previousTimestampSpan.textContent = new Date(attendeeData.signatureTimestamp).toLocaleString('zh-TW', { dateStyle: 'long', timeStyle: 'short' });
                 previousSignatureImage.src = attendeeData.signatureFileUrl;
                 previousSignatureImage.onerror = () => {
-                    previousSignatureImage.alt = '簽名圖片載入失敗';
-                    // 使用更可靠的 placeholder 服務或本地 SVG
-                    previousSignatureImage.src = 'https://placehold.co/400x150/eeeeee/999999?text=no signature';
+                  previousSignatureImage.alt = '簽名圖片載入失敗';
+                  previousSignatureImage.src = 'https://placehold.co/400x150/eeeeee/999999?text=no signature';
                 };
-                previousSignatureSection.classList.remove('hidden'); // 顯示先前報到記錄
+                previousSignatureSection.classList.remove('hidden');
               } else {
-                // 如果已報到但沒有簽名URL或時間戳，也隱藏此區塊並給予提示
-                signatureArea.classList.remove('hidden'); // 顯示新的簽名區
+                signatureArea.classList.remove('hidden');
                 previousSignatureSection.classList.add('hidden');
                 showMessage('您已完成報到，但先前簽名記錄不完整，請重新簽名。', false);
-                setTimeout(() => { // 確保 canvas 可見後再初始化
-                  initializeOrResizeSignaturePad();
-                  if(signaturePad) signaturePad.clear(); // 清除可能殘留的筆跡
-                }, 0);
-              }
-            } else { // 尚未報到
-              signatureArea.classList.remove('hidden'); // 顯示新的簽名區
-              previousSignatureSection.classList.add('hidden'); // 隱藏先前報到記錄
-              setTimeout(() => { // 確保 canvas 可見後再初始化
                 initializeOrResizeSignaturePad();
-                if(signaturePad) signaturePad.clear(); // 清除可能殘留的筆跡
-              }, 0);
+              }
+            } else {
+              signatureArea.classList.remove('hidden');
+              previousSignatureSection.classList.add('hidden');
+              initializeOrResizeSignaturePad();
             }
           } else {
             showMessage('找不到您的報名資料，請確認ID是否正確或洽詢工作人員。', false);
@@ -276,35 +175,25 @@
           searchBtn.disabled = false;
           searchBtn.textContent = '查詢資料';
           showMessage('查詢失敗：' + error.message, false);
-          console.error('Apps Script 執行失敗: ', error);
         })
         .getAttendeeData(attendeeId);
     });
 
     // 顯示參與者資料
     function displayAttendeeData(data) {
-      // Assuming 'data.phone' contains the masked ID string from the backend.
-      // If your backend Code.gs uses a different property name (e.g., 'idNumber')
-      // for the masked ID, update 'data.phone' here accordingly.
-      const idVerificationInfo = data.idNumber || 'N/A';
-
-      // Ensure the template literal below is correctly enclosed in backticks (` `)
-      // and that all HTML attributes (like class="...") are part of this valid JavaScript string.
       attendeeInfoDiv.innerHTML = `
         <dl class="space-y-1">
-          <div><dt>報名ID：</dt><dd id="currentAttendeeId" class="font-mono">${data.id || 'N/A'}</dd></div>
-          <div><dt>姓名：</dt><dd>${data.name || 'N/A'}</dd></div>
+          <div><dt class="font-semibold text-gray-600">報名ID：</dt><dd class="font-mono">${data.id || 'N/A'}</dd></div>
+          <div><dt class="font-semibold text-gray-600">姓名：</dt><dd>${data.name || 'N/A'}</dd></div>
+          <div><dt class="font-semibold text-gray-600">Email：</dt><dd>${data.email || 'N/A'}</dd></div>
+          <div><dt class="font-semibold text-gray-600">驗證資訊：</dt><dd class="font-mono">${data.idNumber || 'N/A'}</dd></div>
         </dl>
-        <dl class="space-y-1">
-          <div><dt>Email：</dt><dd>${data.email || 'N/A'}</dd></div>
-          <div><dt>驗證資訊：</dt><dd class="font-mono">${idVerificationInfo}</dd></div>
-        </dl>
-      `; // Crucial: This closing backtick must be present and correctly placed.
+      `;
     }
 
     // 提交報到與簽名按鈕事件
     submitBtn.addEventListener('click', () => {
-      const attendeeId = document.getElementById('currentAttendeeId')?.textContent;
+      const attendeeId = document.querySelector('#attendeeInfo .font-mono')?.textContent;
       if (!attendeeId) {
         showMessage('無法獲取參與者ID，請重新查詢。', false);
         return;
@@ -326,11 +215,7 @@
           submitBtn.textContent = '確認報到並提交簽名';
           if (response.success) {
             showMessage(response.message, true);
-            signatureArea.classList.add('hidden'); // 成功後隱藏新簽名區
-            // To show the updated "previous signature" immediately,
-            // you might want to re-trigger the search or call a function
-            // that updates the previousSignatureSection.
-            // For example: searchBtn.click();
+            signatureArea.classList.add('hidden');
           } else {
             showMessage(response.message || '報到失敗，請稍後再試。', false);
           }
@@ -339,20 +224,16 @@
           submitBtn.disabled = false;
           submitBtn.textContent = '確認報到並提交簽名';
           showMessage('報到失敗：' + error.message, false);
-          console.error('Apps Script 執行失敗: ', error);
         })
         .recordCheckIn(attendeeId, signatureDataUrl);
     });
 
-    // 頁面載入時可以做一些初始化
     window.onload = () => {
-        attendeeIdInput.value = '';
-        // 確保初始時相關區塊是隱藏的
-        dataSection.classList.add('hidden');
-        previousSignatureSection.classList.add('hidden');
-        signatureArea.classList.add('hidden');
+      attendeeIdInput.value = '';
+      dataSection.classList.add('hidden');
+      previousSignatureSection.classList.add('hidden');
+      signatureArea.classList.add('hidden');
     };
-
   </script>
 </body>
 </html>
